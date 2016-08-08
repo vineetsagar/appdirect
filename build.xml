@@ -1,0 +1,80 @@
+<project name="app" basedir="." default="all">
+
+	<target name="all" depends="war"/>
+	
+	<target name="init.light">
+		<!-- General config -->
+		<tstamp />
+		<property environment="env" />
+		<property file="${basedir}/build.properties" />
+		<property name="release" value="1.0"/>
+
+		<!-- set the classpaths for later references -->
+		<path id="build.lib.path">
+			<fileset dir="${runtime.lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+
+		<path id="compile.path">
+			<pathelement path="${web.classes.dir}" />
+			<path refid="build.lib.path" />
+		</path>
+	</target>
+
+	<target name="init" depends="init.light">
+		<mkdir dir="${web.classes.dir}" />
+		<mkdir dir="${target.dir}"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac classpathref="compile.path" destdir="${web.classes.dir}" srcdir="${src.dir}" debug="on">
+			<include name="**/*.java" />
+			<include name="**/*.hbm.xml" />
+		</javac>
+		<copy todir="${web.classes.dir}">
+			<fileset dir="${conf.dir}">
+				<include name="**/*.properties" />
+				<include name="**/*.xml" />
+			</fileset>
+			<fileset dir="${src.dir}">
+				<include name="**/*.hbm.xml" />
+				<exclude name="**/*.java" />
+				<include name="**/*.html" />
+			</fileset>
+			<fileset dir="${web.dir}">
+				<include name="applicationContext*.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean" depends="init.light">
+		<delete failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${web.classes.dir}"/>
+			<fileset dir="${target.dir}"/>
+		</delete>
+	</target>
+
+	<target name="war" depends="compile">
+		<property name="war.name" value="${ant.project.name}.war" />
+		<delete>
+			<fileset dir="${target.dir}">
+				<include name="*.war" />
+			</fileset>
+		</delete>
+		<war destfile="${target.dir}/${war.name}" webxml="${web.dir}/web.xml">
+			<zipfileset dir="${web.root.dir}">
+				<include name="**/*.js" />
+				<include name="**/*.css" />
+				<include name="**/*.gif" />
+				<include name="**/*.jpg" />
+			</zipfileset>
+			<webinf dir="${web.dir}">
+				<exclude name="web.xml" />
+				<exclude name="**/*.pkc" />
+				<exclude name="classes/org/apache/jsp/**/*.class" />
+			</webinf>
+		</war>
+	</target>
+
+</project>

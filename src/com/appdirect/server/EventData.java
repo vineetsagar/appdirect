@@ -9,8 +9,6 @@ import com.appdirect.server.data.SubscriptionData;
  */
 public class EventData {
 	
-	private SubscriptionData data;
-	
 	private String eventUrl;
 	
 	
@@ -32,19 +30,11 @@ public class EventData {
 		this.eventUrl = eventUrl;
 	}
 
-	public SubscriptionData getData() {
-		return data;
-	}
-
-	public void setData(SubscriptionData data) {
-		this.data = data;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result + ((eventUrl == null) ? 0 : eventUrl.hashCode());
 		return result;
 	}
 
@@ -57,10 +47,10 @@ public class EventData {
 		if (getClass() != obj.getClass())
 			return false;
 		EventData other = (EventData) obj;
-		if (data == null) {
-			if (other.data != null)
+		if (eventUrl == null) {
+			if (other.eventUrl != null)
 				return false;
-		} else if (!data.equals(other.data))
+		} else if (!eventUrl.equals(other.eventUrl))
 			return false;
 		return true;
 	}

@@ -21,15 +21,7 @@ import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
 
 /**
- * Consolidates business logic from the UI code for Registration activities.
- * 
- * Most of this code modeled after ConsumerServlet, part of the openid4java 
- * sample code available at 
- * http://code.google.com/p/openid4java/wiki/SampleConsumer.
- * Some of this code was outright copied :->.
- * 
- * @author J Steven Perry
- * @author http://makotoconsulting.com
+ * Consolidates business logic 
  *
  */
 public class RegistrationService {
@@ -40,13 +32,6 @@ public class RegistrationService {
 	 * DiscoveryInformation object that results from Association with the
 	 * OP. This will probably be needed by the caller (stored in Session
 	 * perhaps?).
-	 * 
-	 * I'm not thrilled about ConsumerManager being static, but it is
-	 * very important to openid4java that the ConsumerManager object be the
-	 * same instance all through a conversation (discovery, auth request, 
-	 * auth response) with the OP. I didn't dig terribly deeply, but suspect
-	 * that part of the key exchange or the nonce uses the ConsumerManager's
-	 * hash, or some other instance-specific construct to do its thing.
 	 * 
 	 * @param userSuppliedIdentifier The User-Supplied identifier. It may already
 	 *  be normalized.
@@ -131,11 +116,8 @@ public class RegistrationService {
 	 *  in the logs.
 	 *  
 	 * @return RegistrationModel - null if there was a problem, or a RegistrationModel
-	 *  object, with parameters filled in as compeletely as possible from the
-	 *  information available from the OP. If you are using MyOpenID, most of the
-	 *  time what is returned is from your "Default" profile, so if you need more 
-	 *  information returned, make sure your Default profile is completely filled
-	 *  out.
+	 *  object, with parameters filled in as completely as possible from the
+	 *  information available from the OP. 
 	 */
 	public static RegistrationModel processReturn(DiscoveryInformation discoveryInformation, ParameterList parameterList, String returnToUrl) {
 		RegistrationModel ret = null;
@@ -212,17 +194,14 @@ public class RegistrationService {
 		}
 		return consumerManager;
 	}
+	
   /**
    * Generates the returnToUrl parameter that is passed to the OP. The
    * User Agent (i.e., the browser) will be directed to this page following
    * authentication.
-   * 
-   * @param representedPage The RegistrationPage object whose cover is to be
-   *  cracked open to get at the raw HttpServlet goodies inside.
-   *  
    * @return String - the returnToUrl to be used for the authentication request.
    */
   public static String getReturnToUrl() {
-    return "http://localhost:8080/app/dashboard";
+	  return "http://ec2-54-254-241-86.ap-southeast-1.compute.amazonaws.com:8080/app/dashboard";
   }
 }

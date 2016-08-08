@@ -3,7 +3,7 @@ package com.appdirect.server.store;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.appdirect.server.user.data.UserStatus;
+import com.appdirect.server.user.data.UserData;
 
 /**
  * This class will store all data of a user
@@ -11,30 +11,33 @@ import com.appdirect.server.user.data.UserStatus;
  *
  */
 public abstract class DataStore {
-
+	
+	public DataStore(){
+	}
+	
+	
 	/**
-	 * map will store user unique identifier vs userstatusin the system
+	 * map will store user unique identifier vs userdata the system
 	 */
-	protected static Map<String,UserStatus> map = new HashMap<String,UserStatus>();
-	/**
-	 * openIdMap will store unique openid vs user unique identifier
-	 */
+	protected static Map<String,UserData> map = new HashMap<String,UserData>();
+	
 	protected static Map<String,String> openIdMap = new HashMap<String,String>();
+
 	/**
 	 * Return the system generated unique identifier
 	 * @param appDirectOpenId
 	 * @param creator
 	 * @return
 	 */
-	public abstract String addUser( String appDirectOpenId, UserStatus status);
+	public abstract String addUser( UserData status, String userOpenId);
 	
-	public abstract void deleteUser(String uniqueIdentifier, String appDirectOpenId);
+	public abstract void deleteUser(String uniqueIdentifier);
 	
-	public abstract void updateUser(String uniqueIdentifier, String appDirectOpenId, UserStatus status);
+	public abstract boolean updateUser(String userOpenId, UserData status);
 	
-	public abstract boolean isUserExist(String uniqueIdentifier, String appDirectOpenId);
+	public abstract UserData getUserByOpenId(String userOpenId);
 	
-	public abstract boolean isUserActive(String uniqueIdentifier, String appDirectOpenId);
+	public abstract boolean isUserExistbyOpenId(String userOpenId);
 	
 	
 }

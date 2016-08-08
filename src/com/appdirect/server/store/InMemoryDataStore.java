@@ -2,11 +2,14 @@ package com.appdirect.server.store;
 
 import java.util.UUID;
 
-import com.appdirect.server.user.data.UserStatus;
+import com.appdirect.server.user.data.UserData;
 
 public class InMemoryDataStore extends DataStore {
 	
 	private static DataStore store;
+	
+	// object for synchronized access to shared resource
+	private static Object syncObj = new Object();
 
 	private InMemoryDataStore(){
 
@@ -20,55 +23,57 @@ public class InMemoryDataStore extends DataStore {
 	}
 	
 	@Override
-	public String addUser( String appDirectOpenId, UserStatus status) {
+	public String addUser( UserData status , String userOpenId) {
 		String uniqueIdentifier = UUID.randomUUID().toString();
-		
-		/**
-		 *  
-		 */
-		map.put(uniqueIdentifier, status);
-		openIdMap.put(uniqueIdentifier, appDirectOpenId);
+			synchronized (syncObj) {
+				map.put(uniqueIdentifier, status);
+				openIdMap.put(userOpenId, uniqueIdentifier);
+			}
 		return uniqueIdentifier;
 	}
 
 	@Override
-	public void deleteUser(String uniqueIdentifier, String appDirectOpenId) {
-		if(openIdMap.get(appDirectOpenId)!=null){
-			if(map.containsKey(uniqueIdentifier)){
-				map.remove(uniqueIdentifier);
-				openIdMap.remove(appDirectOpenId);
-			}
+	public void deleteUser(String uniqueIdentifier) {
+		synchronized (syncObj) {
+					map.remove(uniqueIdentifier);
 		}
 	}
 
 	@Override
-	public void updateUser( String uniqueIdentifier, String appDirectOpenId, UserStatus status) {
-		if(openIdMap.get(appDirectOpenId)!=null){
-			if(map.containsKey(uniqueIdentifier)){
-				map.put(uniqueIdentifier, status);
-			}
+	public boolean updateUser( String userOpenId, UserData data) {
+		synchronized (syncObj) {
+			String identifier = openIdMap.get(userOpenId);
+				if(identifier!=null){
+					map.put(identifier, data);
+					return true;
+				}
 		}
+		return false;
 	}
 
 	@Override
-	public boolean isUserExist(String uniqueIdentifier, String appDirectOpenId) {
-		if(openIdMap.get(appDirectOpenId)!=null){
-			if(map.containsKey(uniqueIdentifier)){
-				return true;	
+	public boolean isUserExistbyOpenId(String userOpenId) {
+		synchronized (syncObj) {
+			if(openIdMap.containsKey(userOpenId)){
+				String identifier = openIdMap.get(userOpenId);
+				if(identifier!=null){
+					return map.containsKey(identifier);
+				}
 			}
 		}
 		return false;
 	}
 	
 	@Override
-	public boolean isUserActive(String uniqueIdentifier, String appDirectOpenId) {
-		if(openIdMap.get(appDirectOpenId)!=null){
-			if(map.containsKey(uniqueIdentifier)){
-				UserStatus userStatus = map.get(uniqueIdentifier);
-				return userStatus.isActive();	
+	public UserData getUserByOpenId(String userOpenId) {
+		synchronized (syncObj) {
+			if(openIdMap.containsKey(userOpenId)){
+				String identifier = openIdMap.get(userOpenId);
+				if(identifier!=null){
+					return map.get(identifier);
+				}
 			}
 		}
-		return false;
+		return null;
 	}
-	
 }

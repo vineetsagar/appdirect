@@ -8,5 +8,5 @@ package com.appdirect.server.request;
 public enum RequestType {
 	CREATE(),
 	CANCEL(),
-	UPDATE();
+	CHANGE();
 }

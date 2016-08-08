@@ -26,10 +26,9 @@ public class RequestHandlerImpl implements RequestHandler {
 			EventResult process = processor.process(eventData);
 			if(process!=null && process.isSuccess()){
 				/**
-				 * though we should return success message but since this app still in devlopment
-				 * phase therefore returning error
+				 * all check are done, return success message
 				 */
-				return new JSONResponse(100, false, "still in devlopment phase");
+				return new JSONResponse(0, true, "success!!");
 			}
 		}else{
 			return new JSONResponse(0, false, "operation not allowed");

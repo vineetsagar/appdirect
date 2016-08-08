@@ -15,7 +15,7 @@ public class RequestFactoryImpl extends EventFactory {
 		switch (type) {
 		case CREATE:
 		case CANCEL:
-
+		case CHANGE:
 			break;
 
 		default:
@@ -28,7 +28,6 @@ public class RequestFactoryImpl extends EventFactory {
 				
 				if(parameters!=null){
 					if(parameters.containsKey(EVENT_URL_PARAMETER)){
-						
 						String[] strings = parameters.get(EVENT_URL_PARAMETER);
 						if(strings!=null && strings.length > 0){
 							String eventUrl = strings[0];
@@ -47,8 +46,10 @@ public class RequestFactoryImpl extends EventFactory {
 		switch (type) {
 		case CREATE:
 			return new CreateEventProcessorImpl();
-		case CANCEL:;
+		case CANCEL:
 			return new CancelEventProcessorImpl();
+		case CHANGE:
+			return new CreateEventProcessorImpl();
 		default:
 			break;
 		}

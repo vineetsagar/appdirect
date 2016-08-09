@@ -1,4 +1,4 @@
-package com.appdirect.server;
+package com.appdirect.server.event.data;
 
 public class EventResult {
 

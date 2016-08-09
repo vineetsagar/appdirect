@@ -73,7 +73,7 @@
   
   <filter>
    <filter-name>SignatureFilter</filter-name>
-   <filter-class>com.appdirect.server.filter.OAuthSignatureVerfier</filter-class>
+   <filter-class>com.appdirect.servlet.filter.OAuthSignatureVerfier</filter-class>
 </filter>
 <filter-mapping>
    <filter-name>SignatureFilter</filter-name>

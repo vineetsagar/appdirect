@@ -1,6 +1,6 @@
-package com.appdirect.http.client;
+package com.appdirect.server.event.reader;
 
-import com.appdirect.server.EventData;
+import com.appdirect.server.event.data.EventData;
 
 public class EventDataReader extends EventReader {
 	

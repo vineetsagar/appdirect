@@ -1,6 +1,4 @@
-package com.appdirect.server;
-
-import com.appdirect.server.data.SubscriptionData;
+package com.appdirect.server.event.data;
 
 /** 
  * Contains all data parsed from the request from AppDirect

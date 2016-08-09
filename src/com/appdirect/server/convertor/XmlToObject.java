@@ -10,6 +10,11 @@ import javax.xml.transform.stream.StreamSource;
 
 import com.appdirect.server.data.SubscriptionData;
 
+/**
+ * Take xml response string from APP direct and convert it into a pojo object
+ * @author vineetsagar
+ *
+ */
 public class XmlToObject {
 	
 	private String data;

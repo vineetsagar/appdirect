@@ -1,4 +1,4 @@
-package com.appdirect.http.client;
+package com.appdirect.server.event.reader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,7 +6,8 @@ import java.net.HttpURLConnection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.appdirect.server.EventData;
+import com.appdirect.http.client.HTTPClient;
+import com.appdirect.server.event.data.EventData;
 
 public abstract class EventReader {
 	
@@ -15,6 +16,7 @@ public abstract class EventReader {
 	abstract EventData getEventData()throws Exception;
 	
 	public String get() throws Exception {
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		Map<String,Object> params = new LinkedHashMap();
         params.put("method", "GET");
         HttpURLConnection conn = httpClient.get(getEventData().getEventUrl(), params);

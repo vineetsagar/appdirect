@@ -28,7 +28,7 @@
 	</target>
 
 	<target name="compile" depends="init">
-		<javac classpathref="compile.path" destdir="${web.classes.dir}" srcdir="${src.dir}" debug="on" target="1.6" >
+		<javac includeantruntime="false" classpathref="compile.path" destdir="${web.classes.dir}" srcdir="${src.dir}" debug="on" target="1.6" >
 			<include name="**/*.java" />
 			<include name="**/*.hbm.xml" />
 		</javac>

@@ -4,6 +4,13 @@ import java.util.UUID;
 
 import com.appdirect.server.user.data.UserData;
 
+/**
+ * Store user subscription data. 
+ * Please not this is inmemory store therefore if tomcat server get rebooted then whole subscription data will
+ * get lost.
+ * @author vineetsagar
+ *
+ */
 public class InMemoryDataStore extends DataStore {
 	
 	private static DataStore store;

@@ -82,9 +82,7 @@ public class RegistrationService {
 			ret = getConsumerManager().authenticate(discoveryInformation, returnToUrl);
 			// Create the Simple Registration Request
 			SRegRequest sRegRequest = SRegRequest.createFetchRequest();
-			/**
-			 * fetching only email and fullname from OP
-			 */
+			// fetching only email and fullname from OP
 			sRegRequest.addAttribute("email", false);
 			sRegRequest.addAttribute("fullname", false);
 			ret.addExtension(sRegRequest);

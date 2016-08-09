@@ -2,6 +2,10 @@ package com.appdirect.server;
 
 import java.io.Serializable;
 
+/**
+ * @author vineetsagar
+ *
+ */
 public class JSONResponse implements Serializable {
 	/**
 	 * 

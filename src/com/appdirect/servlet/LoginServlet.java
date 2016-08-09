@@ -37,15 +37,12 @@ public class LoginServlet extends HttpServlet{
     	 * 4. On Success redirect user to success page
     	 */
     	String userSuppliedIdentifier = request.getParameter("openid_url");
-    	String accountId = request.getParameter("accountId");
-    	System.out.println("open id provided by user" + userSuppliedIdentifier);
     	if(userSuppliedIdentifier!=null){
 	        // Delegate to Open ID code
 	        DiscoveryInformation discoveryInformation = RegistrationService.performDiscoveryOnUserSuppliedIdentifier(userSuppliedIdentifier);
 	        // store the discovery information in session
 	        HttpSession session = request.getSession();
 	        session.setAttribute("discovered", discoveryInformation);
-	        session.setAttribute("accountId", accountId);
 	        // Create the AuthRequest
 	        AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discoveryInformation, RegistrationService.getReturnToUrl());
 	        // redirect the user to their provider for authentication
@@ -63,6 +60,4 @@ public class LoginServlet extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
-
 }

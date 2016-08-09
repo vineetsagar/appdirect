@@ -35,4 +35,4 @@ change login success url (change only domain part)
 jersy-oauth & oauth-signature: for verifying oauth signature 
  signpost-core: for signing HTTP GET request
  
- Additional notes. App direct will not work in localhost mode. You need to host your applicatin on internet.			
+ Additional notes. App direct will not work in localhost mode. You need to host your application on internet.			

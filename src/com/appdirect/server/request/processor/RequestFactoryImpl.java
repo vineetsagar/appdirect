@@ -2,7 +2,7 @@ package com.appdirect.server.request.processor;
 
 import java.util.Map;
 
-import com.appdirect.server.EventData;
+import com.appdirect.server.event.data.EventData;
 import com.appdirect.server.request.RequestType;
 
 public class RequestFactoryImpl extends EventFactory {
@@ -22,10 +22,13 @@ public class RequestFactoryImpl extends EventFactory {
 			break;
 		}
 		return new EventsParser() {
+			/**
+			 * For all appdirect notification they provide an event URL which is generic in nature therefore we don't need to implement multiple 
+			 * implementation for eventparser.
+			 */
 			
 			@Override
 			public EventData parser(Map<String,String[]> parameters) {
-				
 				if(parameters!=null){
 					if(parameters.containsKey(EVENT_URL_PARAMETER)){
 						String[] strings = parameters.get(EVENT_URL_PARAMETER);
@@ -49,7 +52,7 @@ public class RequestFactoryImpl extends EventFactory {
 		case CANCEL:
 			return new CancelEventProcessorImpl();
 		case CHANGE:
-			return new CreateEventProcessorImpl();
+			return new ChangeEventProcessorImpl();
 		default:
 			break;
 		}

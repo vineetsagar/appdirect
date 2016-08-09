@@ -3,7 +3,6 @@ package com.appdirect.server.service;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.joda.time.YearMonthDay;
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
 import org.openid4java.consumer.InMemoryConsumerAssociationStore;
@@ -19,6 +18,8 @@ import org.openid4java.message.ParameterList;
 import org.openid4java.message.sreg.SRegMessage;
 import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
+
+import com.appdirect.server.conf.ConfLoader;
 
 /**
  * Consolidates business logic 
@@ -61,9 +62,6 @@ public class RegistrationService {
 	 * Create an OpenID Auth Request, using the DiscoveryInformation object
 	 * return by the openid4java library.
 	 * 
-	 * This method also uses the Simple Registration Extension to grant
-	 * the Relying Party (RP).
-	 * 
 	 * @param discoveryInformation The DiscoveryInformation that should have
 	 *  been previously obtained from a call to 
 	 *  performDiscoveryOnUserSuppliedIdentifier().
@@ -84,10 +82,11 @@ public class RegistrationService {
 			ret = getConsumerManager().authenticate(discoveryInformation, returnToUrl);
 			// Create the Simple Registration Request
 			SRegRequest sRegRequest = SRegRequest.createFetchRequest();
+			/**
+			 * fetching only email and fullname from OP
+			 */
 			sRegRequest.addAttribute("email", false);
 			sRegRequest.addAttribute("fullname", false);
-			sRegRequest.addAttribute("dob", false);
-			sRegRequest.addAttribute("postcode", false);
 			ret.addExtension(sRegRequest);
 			
 		} catch (Exception e) {
@@ -109,7 +108,7 @@ public class RegistrationService {
 	 *  for use in calling this method.
 	 *  
 	 * @param pageParameters PageParameters passed to the page handling the
-	 *  return verificaion.
+	 *  return verification.
 	 *  
 	 * @param returnToUrl The "return to" URL that was passed to the OP. It must
 	 *  match exactly, or openid4java will issue a verification failed message
@@ -138,21 +137,13 @@ public class RegistrationService {
 						if(attributeNames!=null){
 							System.out.println("attributes " + attributeNames);
 						}
-						String value = sRegResponse.getAttributeValue("dob");
-						if (value != null) {
-						  ret.setDateOfBirth(new YearMonthDay(value).toDateMidnight().toDate());
-						}
-						value = sRegResponse.getAttributeValue("email");
+						String value = sRegResponse.getAttributeValue("email");
 						if (value != null) {
 						  ret.setEmail(value);
 						}
 						value = sRegResponse.getAttributeValue("fullname");
 						if (value != null) {
 						  ret.setFullName(value);
-						}
-						value = sRegResponse.getAttributeValue("postcode");
-						if (value != null) {
-						  ret.setZipCode(value);
 						}
 					}
 				}
@@ -202,6 +193,6 @@ public class RegistrationService {
    * @return String - the returnToUrl to be used for the authentication request.
    */
   public static String getReturnToUrl() {
-	  return "http://ec2-54-254-241-86.ap-southeast-1.compute.amazonaws.com:8080/app/dashboard";
+	  return ConfLoader.getLoginSuccessURL();
   }
 }

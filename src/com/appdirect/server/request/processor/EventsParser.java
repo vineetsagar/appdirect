@@ -2,7 +2,7 @@ package com.appdirect.server.request.processor;
 
 import java.util.Map;
 
-import com.appdirect.server.EventData;
+import com.appdirect.server.event.data.EventData;
 
 public interface EventsParser {
 

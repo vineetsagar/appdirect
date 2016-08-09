@@ -34,6 +34,7 @@ public class SubscriptionChangeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	System.out.println("inside SubscriptionChangeServlet");
     	RequestHandler impl = new RequestHandlerImpl();
     	JSONResponse jsonResponse = impl.handle(RequestType.CHANGE, getRequestHeaderMap(request) , request.getParameterMap());
     	response.setContentType("application/json");

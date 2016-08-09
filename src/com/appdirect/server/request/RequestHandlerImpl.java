@@ -2,9 +2,9 @@ package com.appdirect.server.request;
 
 import java.util.Map;
 
-import com.appdirect.server.EventData;
-import com.appdirect.server.EventResult;
 import com.appdirect.server.JSONResponse;
+import com.appdirect.server.event.data.EventData;
+import com.appdirect.server.event.data.EventResult;
 import com.appdirect.server.request.processor.EventFactory;
 import com.appdirect.server.request.processor.EventsParser;
 import com.appdirect.server.request.processor.EventsProcessor;
@@ -30,9 +30,6 @@ public class RequestHandlerImpl implements RequestHandler {
 				 */
 				return new JSONResponse(0, true, "success!!");
 			}
-		}else{
-			return new JSONResponse(0, false, "operation not allowed");
-			// throw exception that method is now allowed
 		}
 		// if all the process is done then return json response
 		// if any failure then return failure response

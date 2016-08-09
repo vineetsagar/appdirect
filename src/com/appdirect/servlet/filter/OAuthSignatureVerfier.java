@@ -1,4 +1,4 @@
-package com.appdirect.server.filter;
+package com.appdirect.servlet.filter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.appdirect.http.client.HTTPClient;
 import com.appdirect.server.JSONResponse;
+import com.appdirect.server.conf.ConfLoader;
 import com.sun.jersey.oauth.signature.OAuthParameters;
 import com.sun.jersey.oauth.signature.OAuthRequest;
 import com.sun.jersey.oauth.signature.OAuthSecrets;
@@ -71,7 +71,7 @@ public class OAuthSignatureVerfier implements Filter{
 	private boolean verifyRequestJersey(final HttpServletRequest sRequest){
 		OAuthSecrets secrets = new OAuthSecrets();
 		
-		secrets.setConsumerSecret(HTTPClient.CONSUMER_SECRET);
+		secrets.setConsumerSecret(ConfLoader.getConsumerSecret());
 
 
 		OAuthRequest request = new OAuthRequest(){

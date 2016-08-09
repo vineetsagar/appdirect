@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.discovery.Identifier;
 import org.openid4java.message.ParameterList;
@@ -19,6 +20,8 @@ import com.appdirect.server.user.data.UserData;
 
 public class DashboardServlet extends HttpServlet {
 
+	private static final Logger log = Logger.getLogger(DashboardServlet.class);
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -35,11 +38,15 @@ public class DashboardServlet extends HttpServlet {
     	// extract the parameters from the authentication response
     	// (which comes in as a HTTP request from the OpenID provider)
     	
-    	
     	ParameterList openidResp = new ParameterList(request.getParameterMap());
     	
     	// retrieve the previously stored discovery information
     	DiscoveryInformation discovered = (DiscoveryInformation) request.getSession().getAttribute("discovered");
+    	if(discovered == null){
+    		log.info("Unable to serve request");
+    		response.getWriter().write("Ah! Unable to access your request.");
+    		return ;
+    	}
     	Identifier claimedIdentifier = discovered.getClaimedIdentifier();
     	String identifier = claimedIdentifier.getIdentifier();
     	
@@ -75,10 +82,12 @@ public class DashboardServlet extends HttpServlet {
     		/**
     		 * We should be redirecting user to error page that you are not allowed to access this service.
     		 */
+    		log.info("Identifier "+ identifier +" not allowed to access this service");
     		response.getWriter().write("You are not allowed to access this service");
     	}
     	else{
     		// OpenID authentication failed    		
+    		log.info("Unable to serve request for identifier "+ identifier);
     		response.getWriter().write("Ah! Unable to access your request.");
     	}
     }

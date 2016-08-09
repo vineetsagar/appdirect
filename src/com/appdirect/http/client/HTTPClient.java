@@ -17,17 +17,18 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.security.cert.X509Certificate;
 
+import com.appdirect.server.conf.ConfLoader;
+
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.basic.DefaultOAuthConsumer;
 import oauth.signpost.signature.QueryStringSigningStrategy;
 
-
+/**
+ * HTTP request sender 
+ * @author vineetsagar
+ *
+ */
 public class HTTPClient {
-	 
-
-	public static String CONSUMER_KEY="test-130308";
-	public static String CONSUMER_SECRET="zRifgyHX3bKKIUJM";
-
 
 	public URL createUrl(String url) throws MalformedURLException {
 		return new URL(url);
@@ -87,9 +88,16 @@ public class HTTPClient {
 	    }
 
 	
+	 /**
+	  * Execute the HTTP Get URL
+	  * @param url
+	  * @param params
+	  * @return
+	  * @throws Exception
+	  */
 	 public HttpURLConnection get(String url, Map<String, Object> params) throws Exception {
 		 doTrustToCertificates();
-		 OAuthConsumer  consumer = new DefaultOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET); 
+		 OAuthConsumer  consumer = new DefaultOAuthConsumer(ConfLoader.getConsumerKey(),  ConfLoader.getConsumerSecret()); 
 		 consumer.setSigningStrategy(new QueryStringSigningStrategy());
 		 String sign = consumer.sign(url);
 		 URL connectionUrl = createUrl(sign);

@@ -10,17 +10,21 @@ import com.appdirect.server.request.processor.EventsParser;
 import com.appdirect.server.request.processor.EventsProcessor;
 import com.appdirect.server.request.processor.RequestFactoryImpl;
 
+/**
+ * Will handle all the incoming notification request from AppDirect server.
+ * @author vineetsagar
+ *
+ */
 public class RequestHandlerImpl implements RequestHandler {
 
-	
-	
 	private EventFactory requestFactory = new RequestFactoryImpl();
 	
-	
 	@Override
-	public JSONResponse handle(RequestType type, Map<String,String> headerArguments,  Map<String,String[]> queryParameters) {
+	public JSONResponse handle(RequestType type, Map<String,String[]> queryParameters) {
 		EventsParser parser = requestFactory.getEventURL(type);
+		//Parse the request to get the app direct event url and read the content from the event url
 		EventData eventData = parser.parser(queryParameters);
+		// based on request type, get hold of eventprocessor which will read data from event url and perform a task
 		EventsProcessor processor = requestFactory.getEventsProcessor(type);
 		if(processor!=null){
 			EventResult process = processor.process(eventData);

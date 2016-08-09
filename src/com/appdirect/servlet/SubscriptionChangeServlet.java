@@ -1,9 +1,6 @@
 package com.appdirect.servlet;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,25 +31,13 @@ public class SubscriptionChangeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	System.out.println("inside SubscriptionChangeServlet");
     	RequestHandler impl = new RequestHandlerImpl();
-    	JSONResponse jsonResponse = impl.handle(RequestType.CHANGE, getRequestHeaderMap(request) , request.getParameterMap());
+    	JSONResponse jsonResponse = impl.handle(RequestType.CHANGE , request.getParameterMap());
     	response.setContentType("application/json");
     	response.setCharacterEncoding("UTF-8");
     	ObjectMapper mapper = new ObjectMapper();
     	response.getWriter().write(mapper.writeValueAsString(jsonResponse));
     }
-
-	private Map<String, String> getRequestHeaderMap(HttpServletRequest request) {
-		Map<String,String> headerMaps = new HashMap<String,String>();
-		Enumeration<String> headerNames = request.getHeaderNames();
-		while(headerNames.hasMoreElements()){
-			String nextElement = headerNames.nextElement();
-			String header = request.getHeader(nextElement);
-			headerMaps.put(nextElement, header);
-		}
-		return headerMaps;
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

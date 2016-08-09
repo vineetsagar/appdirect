@@ -41,7 +41,6 @@ public class RequestFactoryImpl extends EventFactory {
 				return null;
 			}
 		};
-	
 	}
 	
 	@Override
